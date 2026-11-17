@@ -1,0 +1,4 @@
+[
+ {"event_id":"seg-1","op":"segment","segment_id":"s1","from_node":"A","to_node":"B","version":1,"direction":"both","status":"open","event_time":"2026-11-17T09:00:00Z"},
+ {"event_id":"seg-2","op":"segment","segment_id":"s2","from_node":"B","to_node":"C","version":1,"direction":"both","status":"open","event_time":"2026-11-17T09:00:00Z"}
+]

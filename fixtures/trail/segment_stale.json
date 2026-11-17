@@ -1,0 +1,3 @@
+[
+ {"event_id":"seg-2-stale","op":"segment","segment_id":"s2","from_node":"B","to_node":"C","version":0,"direction":"both","status":"retired","event_time":"2026-11-17T09:50:00Z"}
+]

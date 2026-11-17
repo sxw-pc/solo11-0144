@@ -1,0 +1,4 @@
+[
+ {"event_id":"trip-cancel","op":"trip","trip_id":"t1","from_node":"A","to_node":"C","departs_at":"2026-11-17T10:15:00Z","arrives_at":"2026-11-17T10:30:00Z","seats":3,"status":"cancelled","event_time":"2026-11-17T09:55:00Z"},
+ {"event_id":"trip-2","op":"trip","trip_id":"t2","from_node":"A","to_node":"C","departs_at":"2026-11-17T10:20:00Z","arrives_at":"2026-11-17T10:40:00Z","seats":2,"status":"active","event_time":"2026-11-17T09:55:00Z"}
+]

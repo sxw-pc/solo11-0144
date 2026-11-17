@@ -1,0 +1,4 @@
+[
+ {"event_id":"trip-1","op":"trip","trip_id":"t1","from_node":"A","to_node":"C","departs_at":"2026-11-17T10:15:00Z","arrives_at":"2026-11-17T10:30:00Z","seats":3,"status":"active","event_time":"2026-11-17T09:00:00Z"},
+ {"event_id":"need-1","op":"demand","demand_id":"d1","from_node":"A","to_node":"C","people":3,"latest_exit":"2026-11-17T11:00:00Z","event_time":"2026-11-17T09:00:00Z"}
+]

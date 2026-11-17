@@ -1,0 +1,5 @@
+[
+ {"event_id":"haz-1","op":"hazard","case_id":"h1","segment_id":"s1","severity":3,"status":"active","reporter":"ranger-a","event_time":"2026-11-17T09:05:00Z"},
+ {"event_id":"work-1","op":"remediation","case_id":"h1","worker":"worker-b","photo_hash":"photo-1","status":"done","event_time":"2026-11-17T09:20:00Z"},
+ {"event_id":"review-1","op":"review","case_id":"h1","reviewer":"ranger-c","photo_hash":"photo-1","decision":"clear","event_time":"2026-11-17T09:30:00Z"}
+]
