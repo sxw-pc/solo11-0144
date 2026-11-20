@@ -14,6 +14,7 @@ def ingest(db,events):
                 if record(db,e,'segment',e['segment_id']):
                     db.execute('INSERT INTO segment_revision VALUES (?,?,?,?,?,?,?)',
                                (e['event_id'],e['segment_id'],e['from_node'],e['to_node'],e['version'],e['direction'],e['status']));made+=1
+                    if 'shape' in e:db.execute('INSERT INTO map_shape VALUES (?,?,?)',(e['event_id'],e['segment_id'],json.dumps(e['shape'])))
             elif e['op']=='closure':
                 if e['starts_at']>=e['ends_at']:raise ValueError('closure window is empty')
                 if record(db,e,'closure',e['segment_id']):
@@ -53,3 +54,4 @@ def route(edges,origin,destination):
             if nxt==destination:return path+[sid]
             if nxt not in seen:seen.add(nxt);queue.append((nxt,path+[sid]))
     return None
+

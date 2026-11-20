@@ -6,6 +6,7 @@ PRAGMA foreign_keys=ON;
 CREATE TABLE IF NOT EXISTS evidence(event_id TEXT PRIMARY KEY,kind TEXT NOT NULL,object_id TEXT NOT NULL,event_time TEXT NOT NULL,sha256 TEXT NOT NULL,body TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS segment_revision(event_id TEXT PRIMARY KEY REFERENCES evidence(event_id),segment_id TEXT NOT NULL,from_node TEXT NOT NULL,to_node TEXT NOT NULL,version INTEGER NOT NULL,direction TEXT NOT NULL,status TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS closure_notice(event_id TEXT PRIMARY KEY REFERENCES evidence(event_id),segment_id TEXT NOT NULL,starts_at TEXT NOT NULL,ends_at TEXT NOT NULL,decision TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS map_shape(event_id TEXT PRIMARY KEY REFERENCES evidence(event_id),segment_id TEXT NOT NULL,coordinates TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS map_bundle(id INTEGER PRIMARY KEY AUTOINCREMENT,as_of TEXT NOT NULL,manifest TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS network_release(as_of TEXT PRIMARY KEY,edges_json TEXT NOT NULL,decision TEXT NOT NULL,reason TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS hazard_case(event_id TEXT PRIMARY KEY REFERENCES evidence(event_id),case_id TEXT NOT NULL,segment_id TEXT NOT NULL,severity INTEGER NOT NULL,status TEXT NOT NULL,reporter TEXT NOT NULL);
@@ -23,4 +24,5 @@ def connect(path):
     db=sqlite3.connect(path);db.row_factory=sqlite3.Row;db.executescript(SCHEMA);return db
 
 def rows(db,sql,args=()):return [dict(r) for r in db.execute(sql,args).fetchall()]
+
 
