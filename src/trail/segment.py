@@ -5,16 +5,31 @@ from .sources import record
 from .store import rows
 
 
+def _valid_shape(shape):
+    if not isinstance(shape,list) or len(shape)<2:
+        return False
+    for pt in shape:
+        if not (isinstance(pt,list) and len(pt)==2):
+            return False
+        if not all(isinstance(c,(int,float)) for c in pt):
+            return False
+    return True
+
+
 def ingest(db,events):
     made=0
     with db:
         for e in events:
             if e['op']=='segment':
                 if e['direction'] not in ('forward','both'):raise ValueError('invalid trail direction')
+                if 'shape' in e and not _valid_shape(e['shape']):
+                    raise ValueError('invalid segment shape for '+e['segment_id'])
+                layer=e.get('layer',0)
+                if not isinstance(layer,int):raise ValueError('invalid map layer for '+e['segment_id'])
                 if record(db,e,'segment',e['segment_id']):
                     db.execute('INSERT INTO segment_revision VALUES (?,?,?,?,?,?,?)',
                                (e['event_id'],e['segment_id'],e['from_node'],e['to_node'],e['version'],e['direction'],e['status']));made+=1
-                    if 'shape' in e:db.execute('INSERT INTO map_shape VALUES (?,?,?)',(e['event_id'],e['segment_id'],json.dumps(e['shape'])))
+                    if 'shape' in e:db.execute('INSERT INTO map_shape VALUES (?,?,?,?)',(e['event_id'],e['segment_id'],json.dumps(e['shape']),layer))
             elif e['op']=='closure':
                 if e['starts_at']>=e['ends_at']:raise ValueError('closure window is empty')
                 if record(db,e,'closure',e['segment_id']):
