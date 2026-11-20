@@ -1,14 +1,14 @@
 import argparse,json
 from pathlib import Path
-from . import segment,hazard,shuttle,report
+from . import segment,hazard,shuttle,report,mapbundle
 from .store import connect
 
 def main(argv=None):
     p=argparse.ArgumentParser(prog='trail');sp=p.add_subparsers(dest='command',required=True)
-    for name in ('init','import-segment','import-patrol','import-shuttle','report','demo'):
+    for name in ('init','import-segment','import-patrol','import-shuttle','report','build-map','demo'):
         q=sp.add_parser(name);q.add_argument('--db',default='data/demo.sqlite')
         if name.startswith('import-'):q.add_argument('--input',required=True)
-        if name=='report':q.add_argument('--as-of',required=True)
+        if name in ('report','build-map'):q.add_argument('--as-of',required=True)
     a=p.parse_args(argv);db=connect(a.db)
     try:
         if a.command=='init':result={'initialized':True,'db':a.db}
@@ -16,6 +16,7 @@ def main(argv=None):
             data=json.loads(Path(a.input).read_text(encoding='utf-8'))
             result={'import-segment':segment,'import-patrol':hazard,'import-shuttle':shuttle}[a.command].ingest(db,data)
         elif a.command=='report':result=report.decide(db,a.as_of)
+        elif a.command=='build-map':result=mapbundle.build(db,a.as_of)
         else:
             root=Path(__file__).resolve().parents[2]
             for name,mod in [('segment_good.json',segment),('patrol_clear.json',hazard),('shuttle_good.json',shuttle)]:
@@ -26,3 +27,4 @@ def main(argv=None):
     finally:db.close()
 
 if __name__=='__main__':raise SystemExit(main())
+
